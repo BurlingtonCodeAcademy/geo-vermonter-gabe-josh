@@ -4,10 +4,6 @@ import borderData from "./Components/border.js";
 
 
 class VTMap extends React.Component {
-  componentDidMount() {
-
-  }
-
   getCorners = (geoJson) => {
     geoJson.geometry.coordinates[0].map((coordArray) => {
       return coordArray;
@@ -27,6 +23,7 @@ class VTMap extends React.Component {
         style={{ height: "600px", width: "600px" }}
         zoom={this.props.zoom}
         onClick={this.addMarker}
+
       >
         {/* Tilelayer sets the style of map */}
         <TileLayer
