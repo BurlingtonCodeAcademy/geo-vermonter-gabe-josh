@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import VTMap from "./VTMap";
-import Page from './Page'
+// import VTMap from "./VTMap";
+import Page from './App'
 
-//might wanna move div eventually
+//could move later
 ReactDOM.render(
   <div>
-    <VTMap />
+    {/* <VTMap /> */}
     <Page />
   </div>,
   document.getElementById("root")
 );
-
-// StartGame = (evt) => {
-  
-// }
