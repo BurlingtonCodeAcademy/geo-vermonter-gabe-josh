@@ -18,10 +18,6 @@
     z-index: 3;
   } */
 
-  h1{
-    color: purple
-  }
-
   #guess_modal_background {
     position: fixed;
     top: 0;
@@ -36,11 +32,26 @@
   }
 
   #guess_form_container {
-    width: 300px;
-    height: 200px;
-    border-radius: 30px;
+    width: 450px;
+    height: 40px;
+    border-radius: 15px;
     background-color: white;
+    position: relative;
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  #county_title {
+    text-transform: uppercase;
+  }
+
+  .guess_element {
+    margin: 10px;
   }
 
 
@@ -49,11 +60,14 @@
     height: 20px;
     display: flex;
     flex-direction: column;
+  
   }
 
   #county_input {
     width: 150px;
-    height: 20px;
+    height: 8px;
+    border-radius: 15px;
+    padding: 15px;
   }
 
   button {
@@ -61,8 +75,44 @@
     border-radius: 8px;
   }
 
-  #guess_button {
-    width: 100px;
-    height: 20px;
+  button:hover {
+    cursor: pointer;
   }
+
+  #guess_btn {
+    width: 100px;
+    height: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    border-radius: 15px;
+    background-color: rgb(80, 112, 80);
+    color: white;
+  }
+
+  #guess_close_button {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    font-size: 30px;
+    transform: rotate(45deg);
+  }
+
+  #guess_close_button:hover {
+    cursor: pointer;
+  }
+
+  #restart_btn {
+    width: 100px;
+    height: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    border-radius: 15px;
+    text-transform: uppercase;
+    display: flex;
+  }
+
+  #start {
+    display: flex;
+  }
+  
   
