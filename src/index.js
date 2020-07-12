@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 // import VTMap from "./VTMap";
-import Page from './App'
+import App from './App'
 
 //could move later
 ReactDOM.render(
   <div>
     {/* <VTMap /> */}
-    <Page />
+    <App />
   </div>,
   document.getElementById("root")
 );
+

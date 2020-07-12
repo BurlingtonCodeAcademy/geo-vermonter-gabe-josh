@@ -1,4 +1,3 @@
-// import React from 'react'
 import LeafletPip from 'leaflet-pip';
 import borderData from './border.js';
 import L from 'leaflet'

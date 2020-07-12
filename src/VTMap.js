@@ -23,6 +23,7 @@ class VTMap extends React.Component {
         style={{ height: "600px", width: "600px" }}
         zoom={this.props.zoom}
         onClick={this.addMarker}
+        dragging={false} zoomControl={false} scrollWheelZoom={false} touchZoom={false} doubleClickZoom={false}
 
       >
         {/* Tilelayer sets the style of map */}
@@ -35,16 +36,6 @@ class VTMap extends React.Component {
     );
   }
 }
-
-// class Polygon extends React.Component{
-//     constructor(props) {
-//         super(props)
-
-//         this.state = {
-//             positions={vtBorder}
-//         }
-//     }
-// }
 
 export default VTMap;
 
