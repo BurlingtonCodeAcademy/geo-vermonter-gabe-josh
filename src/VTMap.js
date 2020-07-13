@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, TileLayer, Polygon } from "react-leaflet";
+import { Map, TileLayer, Polygon, Marker, Polyline } from "react-leaflet";
 import borderData from "./Components/border.js";
 
 
@@ -24,7 +24,6 @@ class VTMap extends React.Component {
         zoom={this.props.zoom}
         onClick={this.addMarker}
         dragging={false} zoomControl={false} scrollWheelZoom={false} touchZoom={false} doubleClickZoom={false}
-
       >
         {/* Tilelayer sets the style of map */}
         <TileLayer
@@ -32,7 +31,8 @@ class VTMap extends React.Component {
           attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         ></TileLayer>
         <Polygon color={'white'} positions={vtBorder} />
-      
+      <Marker position={this.props.coords} />
+      <Polyline positions={this.props.latLngArray} />
       </Map>
     );
   }

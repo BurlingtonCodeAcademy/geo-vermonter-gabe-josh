@@ -8,6 +8,8 @@ import { Modal, selectedCounty } from "./Components/Modal";
 import Help from './Components/Help'
 
 
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,7 @@ class App extends Component {
       gameStarted: false,
       coords: [43.9, -72.5],
       origCoords: [],
+      latLngArray: [],
       zoom: 7,
       latStatus: "",
       longStatus: "",
@@ -47,22 +50,19 @@ class App extends Component {
     )
       .then((data) => data.json())
       .then((jsonObj) => {
-        console.log(jsonObj);
+        
         let town;
         town =
           jsonObj.address.city ||
           jsonObj.address.town ||
           jsonObj.address.village ||
           jsonObj.address.hamlet;
+        
         this.setState({
-          mainMap: {
-            // lat: flippedPoint[0],
-            // lon: flippedPoint[1],
-          },
           zoom: 18,
           coords: [theCoordinate[0], theCoordinate[1]],
           origCoords: [theCoordinate[0], theCoordinate[1]],
-          // mapCoords: [flippedPoint],
+          latLngArray: [theCoordinate],
           county: jsonObj.address.county,
           town: town,
           points: 100,
@@ -74,13 +74,13 @@ class App extends Component {
           startButtonDisplay: 'none',
         });
       });
+console.log(theCoordinate)
     // move map to random coordinates
   };
 
   guessHandler = (evt) => {
     evt.preventDefault();
     this.setState((prevState) => {
-      //return { guessModal: !prevState.guessModal};
       return { guessModalDisplay: "" };
     });
   };
@@ -104,8 +104,6 @@ class App extends Component {
 
   giveUp = (evt) => {
     evt.preventDefault();
-    // let lat = this.state.coords[0];
-    // let lon = this.state.coords[1];
     this.setState(() => {
       return {
         coords: [43.9, -72.5],
@@ -115,15 +113,6 @@ class App extends Component {
         countyStatus: this.state.county,
         townStatus: this.state.town,
         points: -100,
-      };
-    });
-  };
-
-  directional = () => {
-    this.setState(() => {
-      let newPoints = this.state.points - 1;
-      return {
-        points: newPoints,
       };
     });
   };
@@ -152,54 +141,59 @@ class App extends Component {
   //}
 
   moveNorth = (evt) => {
-    evt.preventDefault();
-    this.directional();
-    
-    this.setState(() => {
-      let newLat = this.state.coords[0] + 0.002;
-      
+    evt.preventDefault();    
+    this.setState((prevState) => {
+      let newLat = prevState.coords[0] + 0.002
+      let newCoords = [newLat, prevState.coords[1]]
       return {
-        coords: [newLat, this.state.coords[1]],
+        coords: newCoords,
+        points: prevState.points - 1,
+        latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
+    console.log(this.state.latLngArray)
   };
 
   moveSouth = (evt) => {
-    evt.preventDefault();
-    this.directional();
-    
-    this.setState(() => {
-      let newLat = this.state.coords[0] - 0.002;
-      return {
-        coords: [newLat, this.state.coords[1]],
+    evt.preventDefault();    
+    this.setState((prevState) => {
+      let newLat = prevState.coords[0] - 0.002
+      let newCoords = [newLat, prevState.coords[1]]
+        return {
+        coords: [prevState.coords[0] - 0.002, prevState.coords[1]],
+        points: prevState.points - 1,
+        latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
+    console.log(this.state.latLngArray)
   };
 
   moveEast = (evt) => {
-    evt.preventDefault();
-    this.directional();
-    
-    this.setState(() => {
-      
-      let newLong = this.state.coords[1] + 0.003;
-      return {
-        coords: [this.state.coords[0], newLong],
+    evt.preventDefault();    
+    this.setState((prevState) => {
+      let newLon = prevState.coords[1] + 0.003
+      let newCoords = [prevState.coords[0], newLon]
+        return {
+        coords: [prevState.coords[0], prevState.coords[1] + 0.003],
+        points: prevState.points - 1,
+        latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
+    console.log(this.state.latLngArray)
   };
 
   moveWest = (evt) => {
     evt.preventDefault();
-    this.directional();
-
-    this.setState(() => {
-      
-      let newLong = this.state.coords[1] - 0.003;
-      return {
-        coords: [this.state.coords[0], newLong],
+    this.setState((prevState) => {
+      // let newLon = prevState.coords[1] - 0.003
+      let newCoords = [prevState.coords[0], prevState.coords[1] - 0.003]
+        return {
+        coords: [prevState.coords[0], prevState.coords[1] - 0.003],
+        points: prevState.points - 1,
+        latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
+    console.log(this.state.latLngArray)
   };
 
   guessSubmit = () => {
@@ -273,6 +267,7 @@ class App extends Component {
           touchZoom={false}
           doubleClickZoom={false}
           guessModal={this.state.guessModal}
+          latLngArray={this.state.latLngArray}
         ></VTMap>
         {/* START BUTTON  */}
         <div id="info_panel_container">
@@ -397,14 +392,3 @@ class App extends Component {
 }
 
 export default App;
-
-// function Modal (props) {
-//   return (
-//     <div id='modal-background'>
-//       <div id='modal'>
-
-//       </div>
-//     <button onClick={props.close}>Close</button>
-//     </div>
-//   );
-// };
