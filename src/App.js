@@ -5,6 +5,7 @@ import PointChecker from "./Components/PointGenerator";
 import "./App.css";
 //import ModalConductor from './ModalConductor'
 import { Modal, selectedCounty } from "./Components/Modal";
+import Help from './Components/Help'
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class App extends Component {
       guessModalDisplay: "none",
       gameStatus: "",
       startButtonDisplay: "",
-      restartButtonDisplay: "none"
+      restartButtonDisplay: "none",
+      helpMessageDisplay: 'none'
     };
   }
 
@@ -82,11 +84,19 @@ class App extends Component {
     });
   };
 
+  helpButton = (evt) => {
+    evt.preventDefault();
+    this.setState(() => {
+      return { helpMessageDisplay: '' }
+    })
+  }
+
   handleClose = (evt) => {
     evt.preventDefault();
     this.setState(() => {
       return {
         guessModalDisplay: "none",
+        helpMessageDisplay: 'none'
       };
     });
   };
@@ -216,6 +226,10 @@ class App extends Component {
           guessSubmit={this.guessSubmit}
           handleChange={this.handleChange}
         />
+        <Help
+        helpMessageDisplay={this.state.helpMessageDisplay}
+        handleClose={this.handleClose}
+        />
         {/* GAME MAP  */}
         <VTMap
           z-index="0"
@@ -251,9 +265,14 @@ class App extends Component {
           onClick={this.giveUp}
           style={{ display: this.state.gameStarted ? "inline" : "none" }}
         >
-          I give up.
+          I give up
         </button>
-
+        <button
+          id='helpButton'
+          onClick={this.helpButton}
+          style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
+            ?
+            </button>
         {/* LOCATION FIELDS  */}
         <div id="info_panel">
           <div id="lat_field">Latitude: {this.state.latStatus}</div>
