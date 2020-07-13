@@ -17,6 +17,158 @@
     background-color: white;
     z-index: 3;
   } */
+* {
+  font-family: 'VT323', monospace;
+}
+  body {
+    background-color: rgb(218, 215, 195);
+    font-family: 'VT323', monospace;
+  }
+
+  #main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 100%;
+  }
+
+  #game_title {
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    color: rgb(94, 105, 98);
+    font-size: 50px;
+    letter-spacing: 2px;
+    display: flex;
+    margin-left: 225px;
+    margin-bottom: none;
+    height: 40px;
+  }
+
+  #game_center_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 50px;
+    margin-right: 20px;
+  }
+
+  #info_panel_container {
+    background-color: rgb(146, 144, 133);
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #info_panel{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  #directional_buttons_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+  }
+
+  #east_west_buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 225px;
+  }
+
+  .directional_btn {
+    width: 80px;
+    height: 80px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 35px;
+    color: rgb(110, 108, 100);
+    background-color: rgb(207, 204, 188);
+  }
+
+  .directional_btn:hover {
+    background-color: rgb(180, 178, 163);
+  }
+
+  span {
+    position: absolute;
+    transform: rotate(-45deg);
+  }
+
+  #options_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+  }
+
+  .options_element {
+    background-color: rgb(146, 144, 133);
+    color: rgb(216, 213, 198);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .options_element:hover {
+    cursor: pointer;
+    background-color: rgb(138, 136, 124);
+  }
+
+  #start {
+    color: rgb(110, 108, 100);
+    background-color: rgb(207, 204, 188);
+    width: 140px;
+    height: 45px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  #start:hover {
+    background-color: rgb(180, 178, 163);
+  }
+
+  #guess {
+    width: 100px;
+    height: 50px;
+    border-radius: 30px;
+  }
+
+  #quit {
+    width: 100px;
+    height: 50px;
+    border-radius: 30px;
+  }
+
+  #help_button {
+    width: 100px;
+    height: 50px;
+    border-radius: 30px;
+  }
+
+  #return_button {
+    width: 100px;
+    height: 50px;
+    border-radius: 30px;
+  }
+
+  #polygon {
+    color: rgb(235, 255, 235)
+  }
 
   #guess_modal_background {
     position: fixed;
@@ -48,7 +200,8 @@
     width: 450px;
     height: 160px;
     border-radius: 15px;
-    background-color: white;
+    color:  rgb(58, 57, 53);
+    background-color: rgb(146, 144, 133);
     position: relative;
     display: flex;
     justify-content: space-evenly;
@@ -60,10 +213,10 @@
   }
 
   #guess_form_container {
-    width: 450px;
+    width: 350px;
     height: 40px;
     border-radius: 15px;
-    background-color: white;
+    background-color: rgb(146, 144, 133);
     position: relative;
     display: flex;
     justify-content: space-evenly;
@@ -74,9 +227,6 @@
     padding-right: 28px;
   }
 
-  #county_title {
-    text-transform: uppercase;
-  }
 
   .guess_element {
     margin: 10px;
@@ -113,8 +263,13 @@
     text-transform: uppercase;
     letter-spacing: 0.1rem;
     border-radius: 15px;
-    background-color: rgb(80, 112, 80);
-    color: white;
+    background-color: rgb(58, 57, 53);
+    color: rgb(207, 204, 188);
+  }
+
+  #county_title {
+    text-transform: uppercase;
+    color: rgb(58, 57, 53);
   }
 
   #guess_close_button {

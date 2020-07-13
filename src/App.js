@@ -7,6 +7,7 @@ import "./App.css";
 import { Modal, selectedCounty } from "./Components/Modal";
 import Help from './Components/Help'
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +26,7 @@ class App extends Component {
       gameStatus: "",
       startButtonDisplay: "",
       restartButtonDisplay: "none",
-      helpMessageDisplay: 'none'
+      helpMessageDisplay: 'none',
     };
   }
 
@@ -70,7 +71,7 @@ class App extends Component {
           longStatus: "?",
           countyStatus: "?",
           townStatus: "?",
-          startButtonDisplay: 'none'
+          startButtonDisplay: 'none',
         });
       });
     // move map to random coordinates
@@ -127,11 +128,36 @@ class App extends Component {
     });
   };
 
+  // breadcrumbs = () => {
+  //   console.log('this.state.polylinecoords')
+  //   console.log(this.state.polylineCoords)
+  //   let newCoordsArr = this.state.polylineCoords.push(this.state.coords)
+  //   console.log(newCoordsArr)
+  //   this.setState(() => {
+  //     return {
+  //       polylineCoords: newCoordsArr
+  //     }
+  //   })
+
+
+    // let firstpolyline = new L.polyline(pointList, {
+    //   color: 'red',
+    //   weight: 3,
+    //   opacity: 0.5,
+    //   smoothFactor: 1
+    // })
+    // console.log('VTMap below:')
+    // console.log(map)
+    // firstpolyline.addTo(map)
+  //}
+
   moveNorth = (evt) => {
     evt.preventDefault();
     this.directional();
+    
     this.setState(() => {
       let newLat = this.state.coords[0] + 0.002;
+      
       return {
         coords: [newLat, this.state.coords[1]],
       };
@@ -141,6 +167,7 @@ class App extends Component {
   moveSouth = (evt) => {
     evt.preventDefault();
     this.directional();
+    
     this.setState(() => {
       let newLat = this.state.coords[0] - 0.002;
       return {
@@ -152,7 +179,9 @@ class App extends Component {
   moveEast = (evt) => {
     evt.preventDefault();
     this.directional();
+    
     this.setState(() => {
+      
       let newLong = this.state.coords[1] + 0.003;
       return {
         coords: [this.state.coords[0], newLong],
@@ -163,7 +192,9 @@ class App extends Component {
   moveWest = (evt) => {
     evt.preventDefault();
     this.directional();
+
     this.setState(() => {
+      
       let newLong = this.state.coords[1] - 0.003;
       return {
         coords: [this.state.coords[0], newLong],
@@ -230,6 +261,8 @@ class App extends Component {
         helpMessageDisplay={this.state.helpMessageDisplay}
         handleClose={this.handleClose}
         />
+
+        <div id="game_center_container">
         {/* GAME MAP  */}
         <VTMap
           z-index="0"
@@ -242,6 +275,7 @@ class App extends Component {
           guessModal={this.state.guessModal}
         ></VTMap>
         {/* START BUTTON  */}
+        <div id="info_panel_container">
         <button
           id="start"
           onClick={this.StartGame}
@@ -250,91 +284,112 @@ class App extends Component {
           Start Game
         </button>
 
-        {/* GUESS BUTTON  */}
-        <button
-          id="guess"
-          onClick={this.guessHandler}
-          style={{ display: this.state.gameStarted ? "inline" : "none" }}
-        >
-          Make a Guess
-        </button>
-
-        {/* QUIT BUTTON  */}
-        <button
-          id="quit"
-          onClick={this.giveUp}
-          style={{ display: this.state.gameStarted ? "inline" : "none" }}
-        >
-          I give up
-        </button>
-        <button
-          id='helpButton'
-          onClick={this.helpButton}
-          style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
-            ?
-            </button>
-        {/* LOCATION FIELDS  */}
-        <div id="info_panel">
-          <div id="lat_field">Latitude: {this.state.latStatus}</div>
-          <div id="long_field">Longitude: {this.state.longStatus}</div>
-          <div id="count_field">County: {this.state.countyStatus}</div>
-          <div id="town_field">Town: {this.state.townStatus}</div>
-          <div id="points_field">Points: {this.state.points}</div>
-          <div id="game_status">Game status: {this.state.gameStatus}</div>
-        </div>
-
+      
         {/* DIRECTION BUTTONS  */}
         <div
-          id="button_container"
+          id="directional_buttons_container" style={{display: this.state.gameStarted ? '' : 'none'}}
         >
           <button
             className="button"
-            id="northBtn"
+            id="north-btn"
+            class="directional_btn"
             onClick={this.moveNorth}
             disabled={this.state.gameStarted ? false : true}
           >
-            N
+            <span>N</span>
           </button>
+          <div id="east_west_buttons">
+            <button
+              className="button"
+              id="east-btn"
+              class="directional_btn"
+              onClick={this.moveEast}
+              disabled={this.state.gameStarted ? false : true}
+            >
+              <span>E</span>
+            </button>
+            <button
+              className="button"
+              id="west-btn"
+              class="directional_btn"
+              onClick={this.moveWest}
+              disabled={this.state.gameStarted ? false : true}
+            >
+              <span>W</span>
+            </button>
+          </div>
           <button
             className="button"
-            id="southBtn"
+            id="south-btn"
+            class="directional_btn"
             onClick={this.moveSouth}
             disabled={this.state.gameStarted ? false : true}
           >
-            S
+            <span>S</span>
           </button>
-          <button
-            className="button"
-            id="eastBtn"
-            onClick={this.moveEast}
-            disabled={this.state.gameStarted ? false : true}
-          >
-            E
-          </button>
-          <button
-            className="button"
-            id="westBtn"
-            onClick={this.moveWest}
-            disabled={this.state.gameStarted ? false : true}
-          >
-            W
-          </button>
+        </div>
+        </div>
+
+        </div>
+        
           {/* <button
           className='button'
           id='zoomInBtn'
           onClick={this.zoomIn}>Zoom In</button> */}
+          {/* GUESS BUTTON  */}
+        <div id="options_container">
           <button
-            className='button'
-            id='returnButton'
-            onClick={this.return}
-            style={{display: this.state.gameStarted ? 'inline' : 'none'}}>Return</button>
-          <button 
-            id="restart_btn" 
-            onClick={this.restartGame}
-            style={{display: this.state.restartButtonDisplay}}
-            >
-              Play again?
+            id="guess"
+            class="options_element"
+            onClick={this.guessHandler}
+            style={{ display: this.state.gameStarted ? "inline" : "none" }}
+          >
+            Guess
           </button>
+
+          {/* QUIT BUTTON  */}
+          <button
+            id="quit"
+            class="options_element"
+            onClick={this.giveUp}
+            style={{ display: this.state.gameStarted ? "inline" : "none" }}
+          >
+            Give up
+          </button>
+          <button
+            id='help_button'
+            class="options_element"
+            onClick={this.helpButton}
+            style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
+              Help
+              </button>
+              <button
+              className='button'
+              id='return_button'
+              class="options_element"
+              onClick={this.return}
+              style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
+                Return
+            </button>
+          {/* LOCATION FIELDS  */}
+          <div id="info_panel" style={{display: this.state.gameStarted ? '' : 'none' }}>
+            <div id="lat_field">Latitude: {this.state.latStatus}</div>
+            <div id="long_field">Longitude: {this.state.longStatus}</div>
+            <div id="count_field">County: {this.state.countyStatus}</div>
+            <div id="town_field">Town: {this.state.townStatus}</div>
+            <div id="points_field">Points: {this.state.points}</div>
+            <div id="game_status">Game status: {this.state.gameStatus}</div>
+          </div>
+
+            
+            <button 
+              id="restart_btn" 
+              onClick={this.restartGame}
+              style={{display: this.state.restartButtonDisplay}}
+              >
+                Play again?
+            </button>
+
         </div>
       </div>
     );
