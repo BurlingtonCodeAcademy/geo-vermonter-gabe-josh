@@ -48,7 +48,7 @@ class Modal extends Component {
                         </select>
 
                         <button id="guess_btn" className="guess_element" onClick={this.props.guessSubmit}>Guess</button>
-                        <div id="guess_close_button" onClick={this.props.handleClose}>+</div>
+                        <div className="close_button" onClick={this.props.handleClose}>+</div>
                 </div>
             </div>
         )

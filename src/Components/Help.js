@@ -20,7 +20,7 @@ class Help extends React.Component {
                 When you think you know in which county you're in, press "Make a guess" to select from a list of the 14 Vermont counties. Every incorrect guess will dock you 10 points.<br />
                 If you don't know the answer, press "I give up" to display the coordinates, county and town you are in. This will result in a point total of -100, and is not recommended.<br />
                 Try to see how many points you can keep by the end. Good luck! </p>
-          <div id="guess_close_button" onClick={this.props.handleClose}>
+          <div className="close_button" onClick={this.props.handleClose}>
           +
         </div>
           </div>

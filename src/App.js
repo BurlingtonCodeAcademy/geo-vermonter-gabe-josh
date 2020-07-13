@@ -5,7 +5,8 @@ import PointChecker from "./Components/PointGenerator";
 import "./App.css";
 //import ModalConductor from './ModalConductor'
 import { Modal, selectedCounty } from "./Components/Modal";
-import Help from './Components/Help'
+import HelpModal from './Components/Help'
+import WinModal from './Components/WinModal'
 
 
 
@@ -30,6 +31,8 @@ class App extends Component {
       startButtonDisplay: "",
       restartButtonDisplay: "none",
       helpMessageDisplay: 'none',
+      gameWon: false,
+      winModalDisplay: 'none'
     };
   }
 
@@ -74,7 +77,6 @@ class App extends Component {
           startButtonDisplay: 'none',
         });
       });
-console.log(theCoordinate)
     // move map to random coordinates
   };
 
@@ -97,7 +99,8 @@ console.log(theCoordinate)
     this.setState(() => {
       return {
         guessModalDisplay: "none",
-        helpMessageDisplay: 'none'
+        helpMessageDisplay: 'none',
+        winModalDisplay: 'none'
       };
     });
   };
@@ -113,73 +116,45 @@ console.log(theCoordinate)
         countyStatus: this.state.county,
         townStatus: this.state.town,
         points: -100,
+        restartButtonDisplay: ''
       };
     });
   };
 
-  // breadcrumbs = () => {
-  //   console.log('this.state.polylinecoords')
-  //   console.log(this.state.polylineCoords)
-  //   let newCoordsArr = this.state.polylineCoords.push(this.state.coords)
-  //   console.log(newCoordsArr)
-  //   this.setState(() => {
-  //     return {
-  //       polylineCoords: newCoordsArr
-  //     }
-  //   })
-
-
-    // let firstpolyline = new L.polyline(pointList, {
-    //   color: 'red',
-    //   weight: 3,
-    //   opacity: 0.5,
-    //   smoothFactor: 1
-    // })
-    // console.log('VTMap below:')
-    // console.log(map)
-    // firstpolyline.addTo(map)
-  //}
-
   moveNorth = (evt) => {
     evt.preventDefault();    
     this.setState((prevState) => {
-      let newLat = prevState.coords[0] + 0.002
-      let newCoords = [newLat, prevState.coords[1]]
+      let newCoords = [prevState.coords[0] + 0.002, prevState.coords[1]]
       return {
         coords: newCoords,
         points: prevState.points - 1,
         latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
-    console.log(this.state.latLngArray)
   };
 
   moveSouth = (evt) => {
     evt.preventDefault();    
     this.setState((prevState) => {
-      let newLat = prevState.coords[0] - 0.002
-      let newCoords = [newLat, prevState.coords[1]]
+      let newCoords = [prevState.coords[0] - 0.002, prevState.coords[1]]
         return {
         coords: [prevState.coords[0] - 0.002, prevState.coords[1]],
         points: prevState.points - 1,
         latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
-    console.log(this.state.latLngArray)
   };
 
   moveEast = (evt) => {
     evt.preventDefault();    
     this.setState((prevState) => {
-      let newLon = prevState.coords[1] + 0.003
-      let newCoords = [prevState.coords[0], newLon]
+      let newCoords = [prevState.coords[0], prevState.coords[1] + 0.003]
         return {
         coords: [prevState.coords[0], prevState.coords[1] + 0.003],
         points: prevState.points - 1,
         latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
-    console.log(this.state.latLngArray)
   };
 
   moveWest = (evt) => {
@@ -193,7 +168,6 @@ console.log(theCoordinate)
         latLngArray: prevState.latLngArray.concat([newCoords])
       };
     });
-    console.log(this.state.latLngArray)
   };
 
   guessSubmit = () => {
@@ -212,6 +186,8 @@ console.log(theCoordinate)
           countyStatus: this.state.county,
           townStatus: this.state.town,
           gameStatus: "Correct!",
+          gameWon: true,
+          winModalDisplay: ''
         };
       });
     } else {
@@ -233,9 +209,29 @@ console.log(theCoordinate)
 
   return = (evt) => {
     evt.preventDefault();
-    this.setState(() => {
+    let newCoords= this.state.origCoords
+    this.setState((prevState) => {
       return {
-        coords: this.state.origCoords
+        coords: newCoords,
+        latLngArray: prevState.latLngArray.concat([newCoords])
+      }
+    })
+  }
+
+  zoomIn = (evt) => {
+    evt.preventDefault();
+    this.setState((prevState) => {
+      return{
+        zoom: prevState.zoom + 1
+      }
+    })
+  }
+
+  zoomOut = (evt) => {
+    evt.preventDefault();
+    this.setState((prevState) => {
+      return{
+        zoom: prevState.zoom - 1
       }
     })
   }
@@ -243,7 +239,6 @@ console.log(theCoordinate)
   render() {
     return (
       <div id="main">
-        {/* <ModalConductor close={this.hideModal} /> */}
         <Modal
           guessModalDisplay={this.state.guessModalDisplay}
           handleClose={this.handleClose}
@@ -251,10 +246,16 @@ console.log(theCoordinate)
           guessSubmit={this.guessSubmit}
           handleChange={this.handleChange}
         />
-        <Help
+        <HelpModal
         helpMessageDisplay={this.state.helpMessageDisplay}
         handleClose={this.handleClose}
         />
+        <WinModal 
+        // style={{display: this.state.gameWon ? '' : 'none'}} />
+        winModalDisplay={this.state.winModalDisplay}
+        handleClose={this.handleClose}
+        restartGame={this.restartGame}
+        restartButtonDisplay={this.state.restartButtonDisplay}/>
 
         <div id="game_center_container">
         {/* GAME MAP  */}
@@ -285,9 +286,8 @@ console.log(theCoordinate)
           id="directional_buttons_container" style={{display: this.state.gameStarted ? '' : 'none'}}
         >
           <button
-            className="button"
             id="north-btn"
-            class="directional_btn"
+            className="directional_btn"
             onClick={this.moveNorth}
             disabled={this.state.gameStarted ? false : true}
           >
@@ -295,18 +295,16 @@ console.log(theCoordinate)
           </button>
           <div id="east_west_buttons">
             <button
-              className="button"
               id="east-btn"
-              class="directional_btn"
+              className="directional_btn"
               onClick={this.moveEast}
               disabled={this.state.gameStarted ? false : true}
             >
               <span>E</span>
             </button>
             <button
-              className="button"
               id="west-btn"
-              class="directional_btn"
+              className="directional_btn"
               onClick={this.moveWest}
               disabled={this.state.gameStarted ? false : true}
             >
@@ -314,9 +312,8 @@ console.log(theCoordinate)
             </button>
           </div>
           <button
-            className="button"
             id="south-btn"
-            class="directional_btn"
+            className="directional_btn"
             onClick={this.moveSouth}
             disabled={this.state.gameStarted ? false : true}
           >
@@ -327,15 +324,19 @@ console.log(theCoordinate)
 
         </div>
         
-          {/* <button
+          <button
           className='button'
           id='zoomInBtn'
-          onClick={this.zoomIn}>Zoom In</button> */}
+          onClick={this.zoomIn}>Zoom In</button>
+          <button
+          className='button'
+          id='zoomOutBtn'
+          onClick={this.zoomOut}>Zoom Out</button>
           {/* GUESS BUTTON  */}
         <div id="options_container">
           <button
             id="guess"
-            class="options_element"
+            className="options_element"
             onClick={this.guessHandler}
             style={{ display: this.state.gameStarted ? "inline" : "none" }}
           >
@@ -345,7 +346,7 @@ console.log(theCoordinate)
           {/* QUIT BUTTON  */}
           <button
             id="quit"
-            class="options_element"
+            className="options_element"
             onClick={this.giveUp}
             style={{ display: this.state.gameStarted ? "inline" : "none" }}
           >
@@ -353,15 +354,14 @@ console.log(theCoordinate)
           </button>
           <button
             id='help_button'
-            class="options_element"
+            className="options_element"
             onClick={this.helpButton}
             style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
               Help
               </button>
               <button
-              className='button'
               id='return_button'
-              class="options_element"
+              className="options_element"
               onClick={this.return}
               style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
                 Return
@@ -377,13 +377,13 @@ console.log(theCoordinate)
           </div>
 
             
-            <button 
+            {/* <button 
               id="restart_btn" 
               onClick={this.restartGame}
               style={{display: this.state.restartButtonDisplay}}
               >
                 Play again?
-            </button>
+            </button> */}
 
         </div>
       </div>
