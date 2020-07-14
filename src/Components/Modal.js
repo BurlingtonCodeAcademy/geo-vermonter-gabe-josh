@@ -31,6 +31,7 @@ class Modal extends Component {
                     <h3 id="county_title" className="guess_element">County:</h3>
                     
                     <select id="counties"  onChange={this.handleChange}>
+                            <option value="" ></option>
                             <option value="Addison" >Addison</option>
                             <option value="Bennington" >Bennington</option>
                             <option value="Caledonia" >Caledonia</option>

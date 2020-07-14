@@ -6,10 +6,8 @@ import "./App.css";
 //import ModalConductor from './ModalConductor'
 import { Modal, selectedCounty } from "./Components/Modal";
 import HelpModal from './Components/Help'
-import WinModal from './Components/WinModal'
-
-
-
+import { WinModal, playerName } from './Components/WinModal'
+import ScoreModal from './Components/ScoreModal'
 
 class App extends Component {
   constructor(props) {
@@ -30,9 +28,13 @@ class App extends Component {
       gameStatus: "",
       startButtonDisplay: "",
       restartButtonDisplay: "none",
+      scoreModalDisplay: 'none',
       helpMessageDisplay: 'none',
       gameWon: false,
-      winModalDisplay: 'none'
+      winModalDisplay: 'none',
+      points: '',
+      highScores: window.localStorage,
+      highScoreList: []
     };
   }
 
@@ -75,6 +77,12 @@ class App extends Component {
           countyStatus: "?",
           townStatus: "?",
           startButtonDisplay: 'none',
+          highScoreList: [],
+          restartButtonDisplay: "none",
+          scoreModalDisplay: 'none',
+          helpMessageDisplay: 'none',
+          guessModalDisplay: 'none',
+          winModalDisplay: 'none',
         });
       });
     // move map to random coordinates
@@ -82,6 +90,7 @@ class App extends Component {
 
   guessHandler = (evt) => {
     evt.preventDefault();
+    console.log(this.state.county)
     this.setState((prevState) => {
       return { guessModalDisplay: "" };
     });
@@ -100,7 +109,8 @@ class App extends Component {
       return {
         guessModalDisplay: "none",
         helpMessageDisplay: 'none',
-        winModalDisplay: 'none'
+        winModalDisplay: 'none',
+        scoreModalDisplay: 'none',
       };
     });
   };
@@ -217,21 +227,54 @@ class App extends Component {
       }
     })
   }
+//zoomin and zoomout are for testing purposes and we may use them in the future
+  // zoomIn = (evt) => {
+  //   evt.preventDefault();
+  //   this.setState((prevState) => {
+  //     return{
+  //       zoom: prevState.zoom + 1
+  //     }
+  //   })
+  // }
 
-  zoomIn = (evt) => {
+  // zoomOut = (evt) => {
+  //   evt.preventDefault();
+  //   this.setState((prevState) => {
+  //     return{
+  //       zoom: prevState.zoom - 1
+  //     }
+  //   })
+  // }
+
+  submitScore = (evt) => {
     evt.preventDefault();
-    this.setState((prevState) => {
-      return{
-        zoom: prevState.zoom + 1
-      }
-    })
+    this.state.highScores.setItem(JSON.stringify(playerName), this.state.points)
+    console.log(this.state.highScores)
+    // take playerName and player score, store them in local storage
   }
 
-  zoomOut = (evt) => {
-    evt.preventDefault();
-    this.setState((prevState) => {
-      return{
-        zoom: prevState.zoom - 1
+  viewHighScores = () => {
+    // let scoresString = window.localStorage.getItem(this.state.highScores)
+    // console.log(typeof(this.state.highScores))
+    // for(let score of this.state.highScores) {
+    //   console.log(score)
+    // }
+
+    const keys = Object.keys(this.state.highScores)
+    console.log(typeof(keys))
+    console.log(keys)
+    for (const key of keys) {
+      console.log(key)
+      let userScore = this.state.highScores.getItem(key)
+      console.log(userScore)
+      // `Name: ${key} Score: ${userScore}`
+    }
+    // let scores = JSON.parse(this.state.highScores)
+    // console.log(scores)
+    this.setState(() => {
+      return {
+        scoreModalDisplay: '',
+        // highScoreList: scores
       }
     })
   }
@@ -254,8 +297,15 @@ class App extends Component {
         // style={{display: this.state.gameWon ? '' : 'none'}} />
         winModalDisplay={this.state.winModalDisplay}
         handleClose={this.handleClose}
-        restartGame={this.restartGame}
-        restartButtonDisplay={this.state.restartButtonDisplay}/>
+        restartGame={this.StartGame}
+        restartButtonDisplay={this.state.restartButtonDisplay}
+        submitScore={this.submitScore}
+        score={this.state.points}
+        />
+        <ScoreModal 
+        scoreModalDisplay={this.state.scoreModalDisplay}
+        highScores={this.state.highScores}
+        handleClose={this.handleClose}/>
 
         <div id="game_center_container">
         {/* GAME MAP  */}
@@ -323,15 +373,15 @@ class App extends Component {
         </div>
 
         </div>
-        
-          <button
+        {/* zoom buttons are for testing purposes and may be used in the future */}
+          {/* <button
           className='button'
           id='zoomInBtn'
           onClick={this.zoomIn}>Zoom In</button>
           <button
           className='button'
           id='zoomOutBtn'
-          onClick={this.zoomOut}>Zoom Out</button>
+          onClick={this.zoomOut}>Zoom Out</button> */}
           {/* GUESS BUTTON  */}
         <div id="options_container">
           <button
@@ -359,7 +409,13 @@ class App extends Component {
             style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
               Help
               </button>
-              <button
+              <button id="scores_button"
+                className="options_element"
+                onClick={this.viewHighScores}
+                style={{display: this.state.gameStarted ? 'inline' : 'none'}}>
+                High Scores
+              </button>              
+                <button
               id='return_button'
               className="options_element"
               onClick={this.return}
