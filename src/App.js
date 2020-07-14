@@ -8,6 +8,7 @@ import { Modal, selectedCounty } from "./Components/Modal";
 import HelpModal from './Components/Help'
 import { WinModal, playerName } from './Components/WinModal'
 import ScoreModal from './Components/ScoreModal'
+import GiveUpModal from './Components/GiveUpModal'
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class App extends Component {
       restartButtonDisplay: "none",
       scoreModalDisplay: 'none',
       helpMessageDisplay: 'none',
+      giveUpModalDisplay: 'none',
       gameWon: false,
       winModalDisplay: 'none',
       points: '',
@@ -83,6 +85,7 @@ class App extends Component {
           helpMessageDisplay: 'none',
           guessModalDisplay: 'none',
           winModalDisplay: 'none',
+          giveUpModalDisplay: 'none'
         });
       });
     // move map to random coordinates
@@ -126,6 +129,7 @@ class App extends Component {
         countyStatus: this.state.county,
         townStatus: this.state.town,
         points: -100,
+        giveUpModalDisplay: '',
         restartButtonDisplay: ''
       };
     });
@@ -249,32 +253,21 @@ class App extends Component {
   submitScore = (evt) => {
     evt.preventDefault();
     this.state.highScores.setItem(JSON.stringify(playerName), this.state.points)
-    console.log(this.state.highScores)
     // take playerName and player score, store them in local storage
   }
 
   viewHighScores = () => {
-    // let scoresString = window.localStorage.getItem(this.state.highScores)
-    // console.log(typeof(this.state.highScores))
-    // for(let score of this.state.highScores) {
-    //   console.log(score)
+    // const keys = Object.keys(this.state.highScores)
+    // console.log(typeof(keys))
+    // console.log(keys)
+    // for (const key of keys) {
+    //   console.log(key)
+    //   let userScore = this.state.highScores.getItem(key)
+    //   console.log(userScore)
     // }
-
-    const keys = Object.keys(this.state.highScores)
-    console.log(typeof(keys))
-    console.log(keys)
-    for (const key of keys) {
-      console.log(key)
-      let userScore = this.state.highScores.getItem(key)
-      console.log(userScore)
-      // `Name: ${key} Score: ${userScore}`
-    }
-    // let scores = JSON.parse(this.state.highScores)
-    // console.log(scores)
     this.setState(() => {
       return {
         scoreModalDisplay: '',
-        // highScoreList: scores
       }
     })
   }
@@ -306,6 +299,13 @@ class App extends Component {
         scoreModalDisplay={this.state.scoreModalDisplay}
         highScores={this.state.highScores}
         handleClose={this.handleClose}/>
+
+        <GiveUpModal
+        giveUpModalDisplay={this.state.giveUpModalDisplay}
+        county={this.state.county}
+        restartGame={this.restartGame}
+        restartButtonDisplay={this.state.restartButtonDisplay}
+        />
 
         <div id="game_center_container">
         {/* GAME MAP  */}
@@ -433,13 +433,13 @@ class App extends Component {
           </div>
 
             
-            {/* <button 
+            <button 
               id="restart_btn" 
               onClick={this.restartGame}
               style={{display: this.state.restartButtonDisplay}}
               >
                 Play again?
-            </button> */}
+            </button>
 
         </div>
       </div>
