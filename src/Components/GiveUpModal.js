@@ -2,7 +2,7 @@ import React from "react";
 
 class GiveUpModal extends React.Component {
     
-
+//shows the give up modal and gives option to restart the game
   render() {
 
     return (

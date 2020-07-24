@@ -8,7 +8,7 @@ class ScoreModal extends React.Component {
             highScoreList: []
         }
     }
-
+//shows the high scores that have been preserved in local storage
   render() {
     const userNames = Object.keys(this.props.highScores)
     const userScores = Object.values(this.props.highScores)
@@ -27,8 +27,6 @@ class ScoreModal extends React.Component {
                     return <li key={ index }>Name: {name} Score: {score}</li>;
                   })}
             </ul>
-    {/* <h3>{this.props.highScoreList}</h3> */}
-            {/* <p>{this.props.highScoreList}</p> */}
         <div className="close_button" onClick={this.props.handleClose}>+</div>
         </div>
       </div>

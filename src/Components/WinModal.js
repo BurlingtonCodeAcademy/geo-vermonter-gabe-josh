@@ -1,15 +1,13 @@
 import React from "react";
 
 let playerName;
-
+//win message shows user their score and gives option to submit high score which when taken solicits the player's name and saves name and score to local storage.
 class WinModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {};
   }
-
-  scoreSubmit = (event) => {};
 
   changeHandler = (event) => {
     playerName = event.target.value;

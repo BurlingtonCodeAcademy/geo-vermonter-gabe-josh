@@ -11,16 +11,9 @@ class Modal extends Component {
             guessedCounty: "",
         }
     }
-    
-
+//guess button opens a modal with a select of the 14 VT counties and a submit button
     handleChange = (event) => {
         event.preventDefault();
-        console.log(event.target.value)
-        // this.setState(() => {
-        //     return {
-        //     guessedCounty: event.target.value
-        //     }
-        // })
         selectedCounty = `${event.target.value} County`;
       }
 

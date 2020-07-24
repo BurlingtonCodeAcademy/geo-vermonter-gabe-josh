@@ -3,7 +3,7 @@ import React from "react";
 class Help extends React.Component {
   constructor(props) {
     super(props);
-
+//displays a help message in modal form
     this.state = {
       guessedCounty: "",
     };

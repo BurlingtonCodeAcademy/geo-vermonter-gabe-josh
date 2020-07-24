@@ -4,6 +4,7 @@ import borderData from "./Components/border.js";
 
 
 class VTMap extends React.Component {
+  //get the data to use for the corners of the map
   getCorners = (geoJson) => {
     geoJson.geometry.coordinates[0].map((coordArray) => {
       return coordArray;
@@ -11,8 +12,10 @@ class VTMap extends React.Component {
   };
 
   render() {
+    //pulls corner coords from borderData object in border.js
     this.getCorners(borderData);
 
+//maps over the points of Vermont's border for use in our polygon
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
       return [coordSet[1], coordSet[0]];
     });
@@ -31,6 +34,7 @@ class VTMap extends React.Component {
           attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         ></TileLayer>
         <Polygon color={'white'} positions={vtBorder} />
+    {/* Marker is always in the center of the map */}
       <Marker position={this.props.coords} />
       <Polyline positions={this.props.latLngArray} />
       </Map>
