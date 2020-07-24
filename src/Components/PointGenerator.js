@@ -1,5 +1,5 @@
 import LeafletPip from 'leaflet-pip';
-import borderData from './border.js';
+import borderData from './borderData.js';
 import L from 'leaflet'
 
 // max north, max south, max east, and max west are pulled from coordinates array in borderData JSOn object (border.js)

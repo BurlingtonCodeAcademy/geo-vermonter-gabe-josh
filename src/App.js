@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import VTMap from "./VTMap";
 import PointGenerator from "./Components/PointGenerator";
 import "./App.css";
-import { Modal, selectedCounty } from "./Components/Modal";
-import HelpModal from './Components/Help'
+import { GuessModal, selectedCounty } from "./Components/GuessModal";
+import HelpModal from './Components/HelpModal'
 import { WinModal, playerName } from './Components/WinModal'
 import ScoreModal from './Components/ScoreModal'
 import GiveUpModal from './Components/GiveUpModal'
-
+Modal
 //This project was fun to make. I enjoyed solving the logic for this and it was nice to get a little more practice using React. The CSS is really well done. It's amazing what some border radius, a good color scheme and a unified visual aesthetic will do. -Gabe
 
 class App extends Component {
@@ -244,7 +244,7 @@ class App extends Component {
   render() {
     return (
       <div id="main">
-        <Modal
+        <GuessModal
           guessModalDisplay={this.state.guessModalDisplay}
           handleClose={this.handleClose}
           guessedCounty={this.props.guessedCounty}

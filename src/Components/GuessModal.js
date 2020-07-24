@@ -3,7 +3,7 @@ import React, { Component } from "react"
 
 let selectedCounty;
 
-class Modal extends Component {
+class GuessModal extends Component {
     constructor(props) {
         super(props)
 
@@ -49,4 +49,4 @@ class Modal extends Component {
     }
 }
 
-export { Modal, selectedCounty };
+export { GuessModal, selectedCounty };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Map, TileLayer, Polygon, Marker, Polyline } from "react-leaflet";
-import borderData from "./Components/border.js";
+import borderData from "./Components/borderData.js";
 
 
 class VTMap extends React.Component {

@@ -1,6 +1,6 @@
 import React from "react";
 
-class Help extends React.Component {
+class HelpModal extends React.Component {
   constructor(props) {
     super(props);
 //displays a help message in modal form
@@ -30,4 +30,4 @@ class Help extends React.Component {
   }
 }
 
-export default Help;
+export default HelpModal;
